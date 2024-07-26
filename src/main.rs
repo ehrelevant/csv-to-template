@@ -4,7 +4,6 @@ use std::io::Write;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    dbg!(&args);
 
     let csv_path = &args[1];
     let template_path = &args[2];
@@ -37,7 +36,6 @@ fn main() {
     };
 
     let csv_headers: Vec<_> = csv_headers.iter().map(|x| format!("${{{}}}", x)).collect();
-    dbg!(&csv_headers);
 
     for (iii, result) in csv_reader.records().enumerate() {
         let record = match result {
@@ -61,9 +59,8 @@ fn main() {
 
         let mut output_file = match fs::File::create(format!("./src/outputs/{}.txt", iii)) {
             Ok(file) => file,
-            Err(err) => {
+            Err(_) => {
                 println!("Cannot create output file. Terminating program...");
-                println!("{}", err);
                 return;
             }
         };
